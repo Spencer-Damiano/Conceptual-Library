@@ -1,0 +1,50 @@
+# Node.js - Frontend (React/TypeScript)
+frontend/node_modules/
+frontend/build/
+frontend/npm-debug.log
+frontend/yarn-error.log
+
+# Environment files
+*.env
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Editor directories and files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# .NET Core - Backend
+backend/bin/
+backend/obj/
+backend/appsettings.json
+backend/appsettings.Development.json
+backend/appsettings.Production.json
+backend/*.user
+backend/*.suo
+backend/*.userprefs
+backend/*.nupkg
+
+# SQLite Database files
+volumes/library_data/
+*.db
+*.sqlite
+
+# Public and Private Keys
+*.pem
+*.key
+
+# Logs
+logs/
+*.log
+
+# Output files
+wwwroot/
+
+# Rider (JetBrains IDE)
+.idea/

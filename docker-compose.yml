@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:latest
+    container_name: conceptual_library_db
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    volumes:
+      - ./volumes/library_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: conceptual_library_backend
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+    ports:
+      - "8081:80"
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    container_name: conceptual_library_frontend
+    ports:
+      - "3000:80"
