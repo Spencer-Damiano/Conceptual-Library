@@ -31,7 +31,7 @@ backend/*.userprefs
 backend/*.nupkg
 
 # SQLite Database files
-volumes/library_data/
+volumes/
 *.db
 *.sqlite
 
@@ -48,3 +48,6 @@ wwwroot/
 
 # Rider (JetBrains IDE)
 .idea/
+
+# ssl
+nginx/selfsigned.crt

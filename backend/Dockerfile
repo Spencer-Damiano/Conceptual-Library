@@ -1,19 +1,19 @@
-# Stage 1: Build the application
-FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
-WORKDIR /source
-
-# Copy csproj and restore as distinct layers
-COPY *.csproj .
-RUN dotnet restore
-
-# Copy everything else and build
-COPY . .
-RUN dotnet publish -c Release -o /app
-
-# Stage 2: Create the runtime image
-FROM nginx:latest
+FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 WORKDIR /app
-COPY --from=build /app .
-COPY nginx-backend.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
+
+FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
+WORKDIR /src
+COPY ["backend/backend.csproj", "backend/"]
+RUN dotnet restore "backend/backend.csproj"
+COPY . .
+WORKDIR "/src/backend"
+RUN dotnet build "backend.csproj" -c Release -o /app/build
+
+FROM build AS publish
+RUN dotnet publish "backend.csproj" -c Release -o /app/publish
+
+FROM base AS final
+WORKDIR /app
+COPY --from=publish /app/publish .
+ENTRYPOINT ["dotnet", "backend.dll"]

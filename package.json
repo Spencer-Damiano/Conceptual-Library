@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "react-router-dom": "^6.24.1"
+  },
+  "devDependencies": {
+    "@types/react-router-dom": "^5.3.3",
+    "terser-webpack-plugin": "^5.3.10"
+  }
+}

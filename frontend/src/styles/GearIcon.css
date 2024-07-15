@@ -1,0 +1,9 @@
+.gear-icon {
+    position: relative;
+}
+
+.gear-icon .fas {
+    cursor: pointer;
+    font-size: 24px;
+    color: #2e3546;
+}
