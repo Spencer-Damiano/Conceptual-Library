@@ -71,7 +71,7 @@
 ### Immediate Next Steps:
 
 1. **Backend Tasks**:
-    - Confirm and test SQLite database integration.
+    - Confirm and test postegresql database integration.
     - Implement login functionality.
     - Ensure all CRUD operations work as expected.
 
