@@ -2,7 +2,7 @@
 # Usage: .\generate_tree.ps1 -Depth 3 -OutputFile project_structure.txt
 
 param (
-    [int]$Depth = 3,                                 # The depth of the directory tree
+    [int]$Depth = 4,                                 # The depth of the directory tree
     [string]$OutputFile = "project_structure.txt"    # The output file to save the directory structure
 )
 

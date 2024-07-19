@@ -1,0 +1,23 @@
+.dashboard-container {
+  text-align: center;
+  padding: 20px;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.warning {
+  color: red;
+  margin-top: 10px;
+}
+
+.DashboardPage {
+  text-align: center;
+}
+
+.DashboardPage h1 {
+  font-size: 2em;
+  margin: 20px;
+}
