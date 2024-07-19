@@ -1,47 +1,36 @@
+/* LoginPage.css */
+
 .login-container {
-  text-align: center;
-  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   height: 100vh;
+  flex-direction: column;
+}
+
+.login-container h1 {
+  margin-bottom: 20px;
+}
+
+.login-form {
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
+  width: 300px;
+  gap: 10px;
 }
 
-form {
-  display: inline-block;
-  text-align: left;
-  margin-top: 20px;
-}
-
-div {
-  margin-bottom: 10px;
-}
-
-label {
-  display: block;
-  margin-bottom: 5px;
-}
-
-input {
-  width: 200px;
-  padding: 8px;
-}
-
-button {
-  width: 100%;
+.login-form input {
   padding: 10px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
+  font-size: 16px;
+}
+
+.login-form button {
+  padding: 10px;
+  font-size: 16px;
   cursor: pointer;
 }
 
-button:hover {
-  background-color: #45a049;
-}
-
-.error {
+.login-container .error {
   color: red;
   margin-top: 10px;
 }

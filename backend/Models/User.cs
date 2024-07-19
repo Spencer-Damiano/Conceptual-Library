@@ -1,12 +1,21 @@
-namespace backend.Models
+public class User
 {
-    public class User
+    public int UserID { get; set; }
+    public required string Username { get; set; }
+    public required string PasswordHash { get; set; }
+    public required string UserType { get; set; }
+
+    private DateTime _createdAt;
+    public DateTime CreatedAt
     {
-        public int UserID { get; set; }
-        public required string Username { get; set; }
-        public required string PasswordHash { get; set; }
-        public string? UserType { get; set; }
-        public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        get => _createdAt;
+        set => _createdAt = DateTime.SpecifyKind(value, DateTimeKind.Utc);
+    }
+
+    private DateTime _updatedAt;
+    public DateTime UpdatedAt
+    {
+        get => _updatedAt;
+        set => _updatedAt = DateTime.SpecifyKind(value, DateTimeKind.Utc);
     }
 }

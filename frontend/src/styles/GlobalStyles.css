@@ -1,3 +1,5 @@
+/* GlobalStyles.css */
+
 body {
   font-family: Arial, sans-serif;
   margin: 0;
@@ -22,3 +24,9 @@ button {
   margin: 10px;
   cursor: pointer;
 }
+
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
+}
+
+/* Add any global styles you need */

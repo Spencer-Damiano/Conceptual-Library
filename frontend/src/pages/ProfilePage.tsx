@@ -2,14 +2,14 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DropdownMenu from '../components/DropdownMenu';
 import '../styles/GlobalStyles.css';
-import '../styles/DashboardPage.css';
+import '../styles/ProfilePage.css';
 
 interface User {
     username: string;
     // Add other properties as needed
 }
 
-const DashboardPage = () => {
+const ProfilePage = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState<User | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -17,7 +17,6 @@ const DashboardPage = () => {
     useEffect(() => {
         try {
             const storedUser = localStorage.getItem('user');
-            console.log('Retrieved user from localStorage:', storedUser);
             if (storedUser) {
                 setUser(JSON.parse(storedUser));
             } else {
@@ -36,16 +35,17 @@ const DashboardPage = () => {
     }
 
     if (!user) {
-        return null;
+        return null; // Optionally, you can return a loading spinner here
     }
 
     return (
-        <div className="dashboard-container">
+        <div className="profile-container">
             <DropdownMenu />
-            <h1>Dashboard</h1>
+            <h1>Profile Page</h1>
             <p>Welcome, {user.username}!</p>
+            <p>This is a placeholder for the profile page.</p>
         </div>
     );
 };
 
-export default DashboardPage;
+export default ProfilePage;

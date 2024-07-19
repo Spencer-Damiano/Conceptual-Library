@@ -3,18 +3,25 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
-import './styles/GlobalStyles.css';
+import ProfilePage from './pages/ProfilePage';
+import PrivateRoute from './components/PrivateRoute';
+import DropdownMenu from './components/DropdownMenu';
+import './styles/GlobalStyles.css'; // Import global styles here
 
-const App: React.FC = () => {
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/dashboard" element={<DashboardPage />} />
-      </Routes>
-    </Router>
-  );
-};
+function App() {
+    return (
+        <Router>
+            <div>
+                <DropdownMenu />
+                <Routes>
+                    <Route path="/" element={<LandingPage />} />
+                    <Route path="/login" element={<LoginPage />} />
+                    <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
+                    <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
+                </Routes>
+            </div>
+        </Router>
+    );
+}
 
 export default App;

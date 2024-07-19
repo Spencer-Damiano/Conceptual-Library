@@ -1,26 +1,42 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import '../styles/DropdownMenu.css';
 
-const DropdownMenu: React.FC = () => {
-  const [isOpen, setIsOpen] = useState(false);
+const DropdownMenu = () => {
+    const [isOpen, setIsOpen] = useState(false);
+    const isLoggedIn = !!localStorage.getItem('user');
+    const navigate = useNavigate();
 
-  const toggleMenu = () => {
-    setIsOpen(!isOpen);
-  };
+    const toggleDropdown = () => {
+        setIsOpen(!isOpen);
+    };
 
-  return (
-    <div className="dropdown">
-      <button className="dropdown-toggle" onClick={toggleMenu}>
-        ☰
-      </button>
-      <div className={`dropdown-content ${isOpen ? 'show' : ''}`}>
-        <Link to="/">Home</Link>
-        <Link to="/login">Login</Link>
-        <Link to="/dashboard">Dashboard</Link>
-      </div>
-    </div>
-  );
+    const handleLogout = () => {
+        localStorage.removeItem('user');
+        navigate('/login');
+    };
+
+    return (
+        <div className="dropdown">
+            <button className="dropdown-button" onClick={toggleDropdown}>
+                ☰
+            </button>
+            {isOpen && (
+                <div className="dropdown-content">
+                    <Link to="/">Landing</Link>
+                    <Link to="/dashboard">Dashboard</Link>
+                    {isLoggedIn ? (
+                        <>
+                            <Link to="/profile">Profile</Link>
+                            <Link to="/" onClick={handleLogout}>Logout</Link>
+                        </>
+                    ) : (
+                        <Link to="/login">Login</Link>
+                    )}
+                </div>
+            )}
+        </div>
+    );
 };
 
 export default DropdownMenu;
