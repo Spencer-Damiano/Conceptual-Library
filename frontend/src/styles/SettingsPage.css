@@ -1,0 +1,11 @@
+.settings-container {
+    padding: 20px;
+}
+
+.settings-container h1 {
+    color: #333;
+}
+
+.settings-container p {
+    font-size: 18px;
+}

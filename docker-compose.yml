@@ -22,6 +22,8 @@ services:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_HOST: db
       POSTGRES_PORT: 5432
+    volumes:
+      - ./sql/migrations:/flyway/sql
     expose:
       - "80"
     ports:
