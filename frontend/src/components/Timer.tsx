@@ -24,12 +24,15 @@ const Timer = ({ onStateChange }: { onStateChange: (state: boolean) => void }) =
             }, 100);
         } else if (timeLeft <= 0) {
             setIsStudying((prev) => !prev);
-            onStateChange(!isStudying);
             setElapsedTime(0);
             setTimeLeft(isStudying ? selectedSession.break : selectedSession.study);
         }
         return () => clearInterval(timer);
-    }, [isActive, timeLeft, isStudying, selectedSession, onStateChange]);
+    }, [isActive, timeLeft, isStudying, selectedSession]);
+
+    useEffect(() => {
+        onStateChange(isStudying);
+    }, [isStudying, onStateChange]);
 
     const startTimer = () => setIsActive(true);
     const pauseTimer = () => setIsActive(false);
@@ -38,7 +41,6 @@ const Timer = ({ onStateChange }: { onStateChange: (state: boolean) => void }) =
         setIsStudying(true);
         setElapsedTime(0);
         setTimeLeft(selectedSession.study);
-        onStateChange(true);
     };
 
     const handleSessionChange = (session: typeof studySessions[0]) => {
@@ -52,7 +54,7 @@ const Timer = ({ onStateChange }: { onStateChange: (state: boolean) => void }) =
         }
         setSelectedSession(session);
         setShowSettings(false);
-        setIsActive(true); // Start the timer immediately after changing the session
+        startTimer(); // Start timer immediately after session change
     };
 
     const totalDuration = isStudying ? selectedSession.study : selectedSession.break;

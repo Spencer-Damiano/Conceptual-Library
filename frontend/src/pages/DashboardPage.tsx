@@ -45,18 +45,16 @@ const DashboardPage = () => {
 
     return (
         <div className="dashboard-container">
-            <header className="header">
+            <div className="header">
                 <DropdownMenu />
-                <h1>Dashboard</h1>
-            </header>
-            <main className="main-content">
-                {/* <p>Welcome, {user.username}!</p> */}
+            </div>
+            <div className="main">
                 <Timer onStateChange={(state) => setIsStudying(state)} />
-            </main>
-            <footer className="toolbar">
+            </div>
+            <div className="footer">
                 <ToDoList />
-                {/* <DistractionList isBreak={!isStudying} /> */}
-            </footer>
+                <DistractionList isBreak={!isStudying} />
+            </div>
         </div>
     );
 };

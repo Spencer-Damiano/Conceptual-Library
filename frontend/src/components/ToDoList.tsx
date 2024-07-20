@@ -6,101 +6,59 @@ interface ToDoItem {
     completed: boolean;
 }
 
-const ToDoList = () => {
+const ToDoList: React.FC = () => {
     const [items, setItems] = useState<ToDoItem[]>([]);
     const [inputValue, setInputValue] = useState('');
-    const [isExpanded, setIsExpanded] = useState(false);
 
     const addItem = () => {
-        if (inputValue.trim() !== '') {
+        if (inputValue.trim()) {
             setItems([...items, { text: inputValue, completed: false }]);
             setInputValue('');
         }
     };
 
-    const toggleItemCompletion = (index: number) => {
-        const newItems = [...items];
-        newItems[index].completed = !newItems[index].completed;
-        setItems(newItems);
-    };
-
-    const editItem = (index: number, newText: string) => {
-        const newItems = [...items];
-        newItems[index].text = newText;
-        setItems(newItems);
+    const toggleComplete = (index: number) => {
+        setItems(items.map((item, i) => (i === index ? { ...item, completed: !item.completed } : item)));
     };
 
     const deleteItem = (index: number) => {
         setItems(items.filter((_, i) => i !== index));
     };
 
-    const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setInputValue(event.target.value);
-    };
-
-    const handleKeyPress = (event: React.KeyboardEvent<HTMLInputElement>) => {
-        if (event.key === 'Enter') {
-            addItem();
-        }
-    };
-
-    const toggleExpand = () => {
-        setIsExpanded(!isExpanded);
-    };
+    const [isExpanded, setIsExpanded] = useState(false);
 
     return (
         <div className="todo-container">
             <div className="input-container">
-                <button className="toggle-button" onClick={toggleExpand}>
-                    {isExpanded ? '▼' : '▲'}
+                <button className="toggle-button" onClick={() => setIsExpanded(!isExpanded)}>
+                    {isExpanded ? '⬇' : '⬆'}
                 </button>
                 <input
                     type="text"
                     value={inputValue}
-                    onChange={handleInputChange}
-                    onKeyPress={handleKeyPress}
-                    placeholder="Add a to-do item"
+                    onChange={(e) => setInputValue(e.target.value)}
+                    placeholder="Add a task"
                 />
                 <button className="add-button" onClick={addItem}>+</button>
             </div>
             {isExpanded && (
-                <ul className="todo-list">
+                <div className="todo-list">
                     {items.map((item, index) => (
-                        <li
-                            key={index}
-                            className={`todo-item ${item.completed ? 'checked' : ''}`}
-                        >
+                        <div key={index} className="todo-item">
                             <input
                                 type="checkbox"
                                 className="checkbox"
                                 checked={item.completed}
-                                onChange={() => toggleItemCompletion(index)}
+                                onChange={() => toggleComplete(index)}
                             />
-                            <span className="todo-item-content" onClick={() => toggleItemCompletion(index)}>
+                            <span className={`todo-item-content ${item.completed ? 'completed' : ''}`}>
                                 {item.text}
                             </span>
-                            <button
-                                className="edit-button"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    const newText = prompt('Edit item', item.text);
-                                    if (newText !== null) editItem(index, newText);
-                                }}
-                            >
-                                ✎
-                            </button>
-                            <button
-                                className="delete-button"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    deleteItem(index);
-                                }}
-                            >
-                                🗑
-                            </button>
-                        </li>
+                            <button className="edit-button">✏</button>
+                            <button className="delete-button" onClick={() => deleteItem(index)}>🗑️</button>
+                        </div>
                     ))}
-                </ul>
+                </div>
             )}
         </div>
     );
