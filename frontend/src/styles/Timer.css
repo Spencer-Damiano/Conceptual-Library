@@ -1,0 +1,60 @@
+.timer-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 70%; /* Adjust the width here */
+    height: 60vh; /* Adjust the height here */
+    /* Add comments for easy adjustment */
+    /* To change the width, modify the value of 'width' property */
+    /* To change the height, modify the value of 'height' property */
+  }
+  
+  .progress-bar {
+    width: 100%;
+    height: 20px;
+    background-color: #ddd;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .progress.study {
+    background-color: #4caf50;
+  }
+  
+  .progress.break {
+    background-color: #f44336;
+  }
+  
+  .timer {
+    font-size: 48px;
+    margin-bottom: 20px;
+  }
+  
+  .timer-buttons {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+  }
+  
+  .timer-buttons button {
+    margin: 0 5px;
+    flex: 1;
+  }
+  
+  .settings-panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+  }
+  
+  .settings-panel button {
+    margin: 5px;
+  }
+  

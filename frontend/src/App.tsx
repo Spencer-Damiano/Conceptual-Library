@@ -1,14 +1,12 @@
 import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import LoginPage from './pages/LoginPage';
 import DashboardPage from './pages/DashboardPage';
-import ProfilePage from './pages/ProfilePage';
-import PrivateRoute from './components/PrivateRoute';
 import DropdownMenu from './components/DropdownMenu';
-import './styles/GlobalStyles.css'; // Import global styles here
+import './styles/GlobalStyles.css';
 
-function App() {
+const App: React.FC = () => {
     return (
         <Router>
             <div>
@@ -16,12 +14,12 @@ function App() {
                 <Routes>
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/login" element={<LoginPage />} />
-                    <Route path="/dashboard" element={<PrivateRoute><DashboardPage /></PrivateRoute>} />
-                    <Route path="/profile" element={<PrivateRoute><ProfilePage /></PrivateRoute>} />
+                    {/* Commenting out private route for dashboard */}
+                    <Route path="/dashboard" element={<DashboardPage />} />
                 </Routes>
             </div>
         </Router>
     );
-}
+};
 
 export default App;

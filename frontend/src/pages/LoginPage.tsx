@@ -1,88 +1,57 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import DropdownMenu from '../components/DropdownMenu';
 import '../styles/LoginPage.css';
 import '../styles/GlobalStyles.css';
 
-interface User {
-    username: string;
-    // Add other properties as needed
-}
-
-function LoginPage() {
+const LoginPage: React.FC = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState<string | null>(null);
-    const [user, setUser] = useState<User | null>(null);
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const storedUser = localStorage.getItem('user');
-        if (storedUser) {
-            setUser(JSON.parse(storedUser));
-        }
-    }, []);
+    const handleLogin = async (event: React.FormEvent) => {
+        event.preventDefault();
 
-    const handleLogin = async () => {
         try {
-            const response = await axios.post('https://localhost:443/api/auth/login', {
-                username: username,
-                password: password
+            const response = await fetch('/api/user/login', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ username, password }),
             });
-            console.log('Login successful:', response.data);
 
-            const userData = response.data.User || response.data.user;
-            if (userData) {
-                localStorage.setItem('user', JSON.stringify(userData));
-                console.log('Stored user:', localStorage.getItem('user'));
-                setError(null);
-                setUser(userData);
-                navigate('/dashboard');
+            if (response.ok) {
+                const data = await response.json();
+                console.log('Login successful:', data);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                // Commenting out redirect to dashboard
+                // navigate('/dashboard');
             } else {
-                console.error('User data not found in response:', response.data);
-                setError('Login failed. Please check your username and password.');
+                console.error('Login failed');
             }
         } catch (error) {
-            setError('Login failed. Please check your username and password.');
-            console.error('Error logging in:', error);
+            console.error('Error during login:', error);
         }
-    };
-
-    const handleLogout = () => {
-        localStorage.removeItem('user');
-        setUser(null);
     };
 
     return (
-        <div>
-            <DropdownMenu />
-            {user ? (
-                <div>
-                    <h1>Welcome, {user.username}!</h1>
-                    <button onClick={handleLogout}>Logout</button>
-                </div>
-            ) : (
-                <div>
-                    <h1>Login</h1>
-                    <input
-                        type="text"
-                        placeholder="Username"
-                        value={username}
-                        onChange={(e) => setUsername(e.target.value)}
-                    />
-                    <input
-                        type="password"
-                        placeholder="Password"
-                        value={password}
-                        onChange={(e) => setPassword(e.target.value)}
-                    />
-                    <button onClick={handleLogin}>Login</button>
-                    {error && <p>{error}</p>}
-                </div>
-            )}
+        <div className="login-container">
+            <h1>Login</h1>
+            <form onSubmit={handleLogin}>
+                <input
+                    type="text"
+                    placeholder="Username"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                />
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <button type="submit">Login</button>
+            </form>
         </div>
     );
-}
+};
 
 export default LoginPage;
