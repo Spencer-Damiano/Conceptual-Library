@@ -1,13 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/Timer.css';
+import SettingsOverlay from './SettingsOverlay';
+
+interface TimerProps {
+    onStateChange: (isStudying: boolean) => void;
+}
 
 const studySessions = [
-    { study: 10 * 1000, break: 3 * 1000, label: 'Test (10s study / 3s break)' },
+    { study: 5 * 1000, break: 3 * 1000, label: 'Test (5s study / 3s break)' },
     { study: 25 * 60 * 1000, break: 5 * 60 * 1000, label: 'Pomodoro (25m study / 5m break)' },
     { study: 45 * 60 * 1000, break: 15 * 60 * 1000, label: 'Long (45m study / 15m break)' },
 ];
 
-const Timer = ({ onStateChange }: { onStateChange: (state: boolean) => void }) => {
+const Timer: React.FC<TimerProps> = ({ onStateChange }) => {
     const [selectedSession, setSelectedSession] = useState(studySessions[0]);
     const [timeLeft, setTimeLeft] = useState(selectedSession.study);
     const [isStudying, setIsStudying] = useState(true);
@@ -26,13 +31,10 @@ const Timer = ({ onStateChange }: { onStateChange: (state: boolean) => void }) =
             setIsStudying((prev) => !prev);
             setElapsedTime(0);
             setTimeLeft(isStudying ? selectedSession.break : selectedSession.study);
+            onStateChange(!isStudying);
         }
         return () => clearInterval(timer);
-    }, [isActive, timeLeft, isStudying, selectedSession]);
-
-    useEffect(() => {
-        onStateChange(isStudying);
-    }, [isStudying, onStateChange]);
+    }, [isActive, timeLeft, isStudying, selectedSession, onStateChange]);
 
     const startTimer = () => setIsActive(true);
     const pauseTimer = () => setIsActive(false);
@@ -41,10 +43,10 @@ const Timer = ({ onStateChange }: { onStateChange: (state: boolean) => void }) =
         setIsStudying(true);
         setElapsedTime(0);
         setTimeLeft(selectedSession.study);
+        onStateChange(true);
     };
 
-    const handleSessionChange = (session: typeof studySessions[0]) => {
-        pauseTimer();
+    const handleApplyTimerSettings = (session: { study: number; break: number; label: string }) => {
         if (elapsedTime < session.study) {
             setTimeLeft(session.study - elapsedTime);
             setIsStudying(true);
@@ -54,7 +56,7 @@ const Timer = ({ onStateChange }: { onStateChange: (state: boolean) => void }) =
         }
         setSelectedSession(session);
         setShowSettings(false);
-        startTimer(); // Start timer immediately after session change
+        setIsActive(true); // Automatically resume the timer
     };
 
     const totalDuration = isStudying ? selectedSession.study : selectedSession.break;
@@ -85,14 +87,10 @@ const Timer = ({ onStateChange }: { onStateChange: (state: boolean) => void }) =
                 <button onClick={() => { setShowSettings(!showSettings); pauseTimer(); }}>Settings</button>
             </div>
             {showSettings && (
-                <div className="settings-panel">
-                    <h2>Select Study Session</h2>
-                    {studySessions.map((session) => (
-                        <button key={session.label} onClick={() => handleSessionChange(session)}>
-                            {session.label}
-                        </button>
-                    ))}
-                </div>
+                <SettingsOverlay
+                    onClose={() => setShowSettings(false)}
+                    onApplyTimerSettings={handleApplyTimerSettings}
+                />
             )}
         </div>
     );

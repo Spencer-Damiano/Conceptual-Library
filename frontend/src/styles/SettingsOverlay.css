@@ -1,0 +1,128 @@
+.settings-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.settings-content {
+    background-color: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    width: 80%;
+    max-width: 800px;
+    position: relative;
+}
+
+.header-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.close-button {
+    background-color: transparent;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.tab-button {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    background-color: #ddd;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 5px;
+}
+
+.tab-button.active {
+    background-color: #f0f0f0;
+}
+
+.tab-button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+.settings-panel {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.session-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+}
+
+.session-table th, .session-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+.session-table tr.selected {
+    background-color: #f0f0f0;
+}
+
+.session-table tr:hover {
+    background-color: #e0e0e0;
+    cursor: pointer;
+}
+
+.apply-button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-right: 10px;
+}
+
+.apply-button:hover {
+    background-color: #45a049;
+}
+
+.music-button,
+.soundscape-button {
+    padding: 10px 20px;
+    margin: 5px;
+    background-color: #ddd;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.music-button:hover,
+.soundscape-button:hover {
+    background-color: #ccc;
+}
+
+.volume-control {
+    margin-top: 20px;
+}
+
+.volume-control label {
+    margin-right: 10px;
+}
+
+.checkbox-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.checkbox-container input {
+    margin-right: 10px;
+}
