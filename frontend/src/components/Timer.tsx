@@ -4,6 +4,8 @@ import SettingsOverlay from './SettingsOverlay';
 
 interface TimerProps {
     onStateChange: (isStudying: boolean) => void;
+    onSettingsToggle: () => void;
+    isSettingsOpen: boolean;
 }
 
 const studySessions = [
@@ -12,12 +14,11 @@ const studySessions = [
     { study: 45 * 60 * 1000, break: 15 * 60 * 1000, label: 'Long (45m study / 15m break)' },
 ];
 
-const Timer: React.FC<TimerProps> = ({ onStateChange }) => {
+const Timer: React.FC<TimerProps> = ({ onStateChange, onSettingsToggle, isSettingsOpen }) => {
     const [selectedSession, setSelectedSession] = useState(studySessions[0]);
     const [timeLeft, setTimeLeft] = useState(selectedSession.study);
     const [isStudying, setIsStudying] = useState(true);
     const [isActive, setIsActive] = useState(false);
-    const [showSettings, setShowSettings] = useState(false);
     const [elapsedTime, setElapsedTime] = useState(0);
 
     useEffect(() => {
@@ -55,7 +56,7 @@ const Timer: React.FC<TimerProps> = ({ onStateChange }) => {
             setIsStudying(false);
         }
         setSelectedSession(session);
-        setShowSettings(false);
+        onSettingsToggle(); // Close the settings overlay
         setIsActive(true); // Automatically resume the timer
     };
 
@@ -84,11 +85,11 @@ const Timer: React.FC<TimerProps> = ({ onStateChange }) => {
                 <button onClick={startTimer}>Start</button>
                 <button onClick={pauseTimer}>Pause</button>
                 <button onClick={resetTimer}>Reset</button>
-                <button onClick={() => { setShowSettings(!showSettings); pauseTimer(); }}>Settings</button>
+                <button onClick={onSettingsToggle}>Settings</button>
             </div>
-            {showSettings && (
+            {isSettingsOpen && (
                 <SettingsOverlay
-                    onClose={() => setShowSettings(false)}
+                    onClose={onSettingsToggle}
                     onApplyTimerSettings={handleApplyTimerSettings}
                 />
             )}

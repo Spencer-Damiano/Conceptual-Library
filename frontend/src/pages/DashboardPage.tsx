@@ -17,11 +17,15 @@ const DashboardPage = () => {
     const [user, setUser] = useState<User | null>(null);
     const [error, setError] = useState<string | null>(null);
     const [isStudying, setIsStudying] = useState(true);
+    const [isSettingsOpen, setIsSettingsOpen] = useState(false);
+
+    const handleSettingsToggle = () => {
+        setIsSettingsOpen(!isSettingsOpen);
+    };
 
     useEffect(() => {
         try {
             const storedUser = localStorage.getItem('user');
-            console.log('Retrieved user from localStorage:', storedUser);
             if (storedUser) {
                 setUser(JSON.parse(storedUser));
             } else {
@@ -49,11 +53,11 @@ const DashboardPage = () => {
                 <DropdownMenu />
             </div>
             <div className="main">
-                <Timer onStateChange={(state) => setIsStudying(state)} />
+                <Timer onStateChange={(state) => setIsStudying(state)} onSettingsToggle={handleSettingsToggle} isSettingsOpen={isSettingsOpen} />
             </div>
             <div className="footer">
-                <ToDoList />
-                <DistractionList isBreak={!isStudying} />
+                <ToDoList isSettingsOpen={isSettingsOpen} />
+                <DistractionList isBreak={!isStudying} isSettingsOpen={isSettingsOpen} />
             </div>
         </div>
     );

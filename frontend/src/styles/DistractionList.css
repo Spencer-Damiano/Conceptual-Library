@@ -70,3 +70,24 @@ button {
   flex-grow: 1;
   margin: 0 10px;
 }
+
+.todo-container.disabled,
+.distraction-container.disabled {
+    filter: grayscale(100%);
+    pointer-events: none;
+}
+
+.input-container input[disabled] {
+    background-color: #e0e0e0;
+}
+
+.input-container button[disabled] {
+    background-color: #e0e0e0;
+    cursor: not-allowed;
+}
+
+.todo-container.disabled,
+.distraction-container.disabled {
+    opacity: 0.5; /* Visually indicate that the container is disabled */
+    pointer-events: none; /* Disable interactions */
+}

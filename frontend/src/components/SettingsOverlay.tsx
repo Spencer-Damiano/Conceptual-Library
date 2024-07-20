@@ -93,11 +93,8 @@ const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ onClose, onApplyTimer
                                     ))}
                                 </tbody>
                             </table>
-                            <div className='apply-button-container'>
-                                <button
-                                    className='apply-button'
-                                    onClick={handleApplyTimerSettings}
-                                >
+                            <div className="apply-button-container">
+                                <button className="apply-button" onClick={handleApplyTimerSettings}>
                                     Apply
                                 </button>
                             </div>

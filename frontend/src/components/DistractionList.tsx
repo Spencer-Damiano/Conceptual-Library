@@ -8,9 +8,10 @@ interface DistractionItem {
 
 interface DistractionListProps {
     isBreak: boolean;
+    isSettingsOpen: boolean;
 }
 
-const DistractionList: React.FC<DistractionListProps> = ({ isBreak }) => {
+const DistractionList: React.FC<DistractionListProps> = ({ isBreak, isSettingsOpen }) => {
     const [items, setItems] = useState<DistractionItem[]>([]);
     const [inputValue, setInputValue] = useState('');
     const [isExpanded, setIsExpanded] = useState(false);
@@ -37,9 +38,9 @@ const DistractionList: React.FC<DistractionListProps> = ({ isBreak }) => {
     };
 
     return (
-        <div className="distraction-container">
+        <div className={`distraction-container ${isSettingsOpen ? 'disabled' : ''}`}>
             <div className="input-container">
-                <button className="toggle-button" onClick={() => setIsExpanded(!isExpanded)} disabled={!isBreak}>
+                <button className="toggle-button" onClick={() => setIsExpanded(!isExpanded)} disabled={!isBreak || isSettingsOpen}>
                     {isExpanded ? '⬇' : '⬆'}
                 </button>
                 <input
@@ -47,8 +48,9 @@ const DistractionList: React.FC<DistractionListProps> = ({ isBreak }) => {
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     placeholder="Add a distraction"
+                    disabled={isSettingsOpen}
                 />
-                <button className="add-button" onClick={addItem}>+</button>
+                <button className="add-button" onClick={addItem} disabled={isSettingsOpen}>+</button>
             </div>
             {isExpanded && (
                 <div className="distraction-list">
@@ -59,12 +61,13 @@ const DistractionList: React.FC<DistractionListProps> = ({ isBreak }) => {
                                 className="checkbox"
                                 checked={item.completed}
                                 onChange={() => toggleComplete(index)}
+                                disabled={isSettingsOpen}
                             />
                             <span className={`distraction-item-content ${item.completed ? 'completed' : ''}`}>
                                 {item.text}
                             </span>
-                            <button className="edit-button">✏</button>
-                            <button className="delete-button" onClick={() => deleteItem(index)}>🗑️</button>
+                            <button className="edit-button" disabled={isSettingsOpen}>✏</button>
+                            <button className="delete-button" onClick={() => deleteItem(index)} disabled={isSettingsOpen}>🗑️</button>
                         </div>
                     ))}
                 </div>

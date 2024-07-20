@@ -6,7 +6,11 @@ interface ToDoItem {
     completed: boolean;
 }
 
-const ToDoList: React.FC = () => {
+interface ToDoListProps {
+    isSettingsOpen: boolean;
+}
+
+const ToDoList: React.FC<ToDoListProps> = ({ isSettingsOpen }) => {
     const [items, setItems] = useState<ToDoItem[]>([]);
     const [inputValue, setInputValue] = useState('');
 
@@ -28,9 +32,9 @@ const ToDoList: React.FC = () => {
     const [isExpanded, setIsExpanded] = useState(false);
 
     return (
-        <div className="todo-container">
+        <div className={`todo-container ${isSettingsOpen ? 'disabled' : ''}`}>
             <div className="input-container">
-                <button className="toggle-button" onClick={() => setIsExpanded(!isExpanded)}>
+                <button className="toggle-button" onClick={() => setIsExpanded(!isExpanded)} disabled={isSettingsOpen}>
                     {isExpanded ? '⬇' : '⬆'}
                 </button>
                 <input
@@ -38,8 +42,9 @@ const ToDoList: React.FC = () => {
                     value={inputValue}
                     onChange={(e) => setInputValue(e.target.value)}
                     placeholder="Add a task"
+                    disabled={isSettingsOpen}
                 />
-                <button className="add-button" onClick={addItem}>+</button>
+                <button className="add-button" onClick={addItem} disabled={isSettingsOpen}>+</button>
             </div>
             {isExpanded && (
                 <div className="todo-list">
@@ -50,12 +55,13 @@ const ToDoList: React.FC = () => {
                                 className="checkbox"
                                 checked={item.completed}
                                 onChange={() => toggleComplete(index)}
+                                disabled={isSettingsOpen}
                             />
                             <span className={`todo-item-content ${item.completed ? 'completed' : ''}`}>
                                 {item.text}
                             </span>
-                            <button className="edit-button">✏</button>
-                            <button className="delete-button" onClick={() => deleteItem(index)}>🗑️</button>
+                            <button className="edit-button" disabled={isSettingsOpen}>✏</button>
+                            <button className="delete-button" onClick={() => deleteItem(index)} disabled={isSettingsOpen}>🗑️</button>
                         </div>
                     ))}
                 </div>
