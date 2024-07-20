@@ -1,23 +1,29 @@
 .dashboard-container {
-  text-align: center;
-  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   height: 100vh;
+  padding: 20px;
+}
+
+.header {
+  flex: 0 0 12.5%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.main {
+  flex: 1 0 80%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
 }
 
-.warning {
-  color: red;
-  margin-top: 10px;
-}
-
-.DashboardPage {
-  text-align: center;
-}
-
-.DashboardPage h1 {
-  font-size: 2em;
-  margin: 20px;
+.footer {
+  flex: 0 0 10%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 }

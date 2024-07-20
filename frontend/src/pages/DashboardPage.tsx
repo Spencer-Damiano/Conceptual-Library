@@ -1,6 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import DropdownMenu from '../components/DropdownMenu';
+import Timer from '../components/Timer';
+import ToDoList from '../components/ToDoList';
+import DistractionList from '../components/DistractionList';
 import '../styles/GlobalStyles.css';
 import '../styles/DashboardPage.css';
 
@@ -13,6 +16,7 @@ const DashboardPage = () => {
     const navigate = useNavigate();
     const [user, setUser] = useState<User | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const [isStudying, setIsStudying] = useState(true);
 
     useEffect(() => {
         try {
@@ -41,9 +45,16 @@ const DashboardPage = () => {
 
     return (
         <div className="dashboard-container">
-            <DropdownMenu />
-            <h1>Dashboard</h1>
-            <p>Welcome, {user.username}!</p>
+            <div className="header">
+                <DropdownMenu />
+            </div>
+            <div className="main">
+                <Timer onStateChange={(state) => setIsStudying(state)} />
+            </div>
+            <div className="footer">
+                <ToDoList />
+                <DistractionList isBreak={!isStudying} />
+            </div>
         </div>
     );
 };

@@ -1,0 +1,72 @@
+.distraction-container {
+  position: fixed;
+  bottom: 10px;
+  right: 10px;
+  width: 300px;
+  border: 1px solid #ccc; /* Add border */
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.input-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+input {
+  flex-grow: 1;
+  height: 30px;
+}
+
+button {
+  height: 30px;
+  margin: 0 5px;
+}
+
+.distraction-list {
+  max-height: 120px; /* Adjusted height */
+  overflow-y: auto;
+  margin-top: 10px;
+  border: 1px solid #ccc; /* Add border */
+  padding: 10px;
+  border-radius: 5px;
+  background-color: #fff;
+}
+
+.distraction-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 5px 0;
+}
+
+.completed {
+  text-decoration: line-through;
+}
+
+.toggle-button,
+.add-button {
+  width: 22.5px; /* Decreased width by 25% */
+  height: 22.5px; /* Decreased height by 25% */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.checkbox,
+.edit-button,
+.delete-button {
+  width: 15px; /* Decreased size by 50% */
+  height: 15px; /* Decreased size by 50% */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-left: 5px;
+}
+
+.distraction-item-content {
+  flex-grow: 1;
+  margin: 0 10px;
+}
