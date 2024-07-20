@@ -9,7 +9,7 @@ h1 {
     text-align: center;
 }
 
-.LoginPage, .DashboardPage {
+.login-container, .dashboard-container {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -27,4 +27,27 @@ code {
     font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-/* Add any global styles you need */
+.login-form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.input-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-bottom: 10px;
+}
+
+input[type="text"],
+input[type="password"] {
+    margin: 5px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.error {
+    color: red;
+}

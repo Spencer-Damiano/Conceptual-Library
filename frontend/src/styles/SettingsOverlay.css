@@ -14,9 +14,9 @@
     background-color: #fff;
     border-radius: 10px;
     padding: 20px;
-    width: 80vw; /* 80% of viewport width */
-    height: 60vh; /* 60% of viewport height */
-    max-width: 800px;
+    width: 88vw; /* Increased by 10% from 80vw */
+    height: 66vh; /* Increased by 10% from 60vh */
+    max-width: 880px; /* Increased by 10% from 800px */
     position: relative;
     display: flex;
     flex-direction: column;
@@ -55,6 +55,14 @@
     flex-grow: 1;
     overflow-y: auto;
     padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between; /* Ensure space is allocated for the button */
+}
+
+.apply-button-container {
+    display: flex;
+    justify-content: flex-end; /* Align the button to the right */
 }
 
 .apply-button {
@@ -63,7 +71,6 @@
     padding: 10px 20px;
     border: none;
     cursor: pointer;
-    align-self: flex-end;
     margin-top: 20px;
 }
 
@@ -90,151 +97,9 @@
     background-color: #f2f2f2;
 }
 
-.audio-settings-table .audio-button,
-.volume-settings-table .mute-button {
-    padding: 5px 10px;
-    border: none;
-    cursor: pointer;
-    margin-right: 5px;
-}
-
-.audio-settings-table .audio-button.selected,
-.volume-settings-table .mute-button.selected {
-    background-color: #d1d1d1;
-}
-
-.audio-settings-table .audio-button:hover,
-.volume-settings-table .mute-button:hover {
-    background-color: #e0e0e0;
-}
-
-.mute-button span.strikethrough {
-    text-decoration: line-through;
-}
-
-.volume-settings-header {
-    font-weight: bold;
-    margin-bottom: 0; /* Remove the bottom margin to eliminate padding between header and table */
-    background-color: #f2f2f2; /* Match the background color of music settings header */
-    border: 1px solid #ccc; /* Add outline */
-    padding: 10px;
-    text-align: center; /* Center align the header */
-}
-
-.checkbox-container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-top: 20px;
-}
-
-.checkbox-container input {
-    margin-right: 10px;
-}
-
-/* Specific styles for volume settings table */
-.volume-settings-table .volume-label {
-    width: 25%; /* Adjust the width of the volume label column */
-}
-
-.volume-settings-table .volume-bar-container {
-    width: 65%; /* Adjust the width of the volume bar container column */
-    display: flex;
-    align-items: center;
-}
-
-.settings-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.settings-content {
-    background-color: #fff;
-    border-radius: 10px;
-    padding: 20px;
-    width: 80vw; /* 80% of viewport width */
-    height: 60vh; /* 60% of viewport height */
-    max-width: 800px;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-}
-
-.header-buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.close-button {
-    background-color: transparent;
-    border: none;
-    font-size: 20px;
-    cursor: pointer;
-}
-
-.tab-button {
-    flex: 1;
-    padding: 10px;
-    cursor: pointer;
-    background-color: #f2f2f2;
-    border: 1px solid #ccc;
-    border-radius: 10px 10px 0 0;
-    margin-right: 5px;
-}
-
-.tab-button.active {
-    background-color: #ccc;
-}
-
-.settings-panel {
-    flex-grow: 1;
-    overflow-y: auto;
-    padding: 20px;
-}
-
-.apply-button {
-    background-color: #4CAF50;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    align-self: flex-end;
-    margin-top: 20px;
-}
-
-.session-table,
-.audio-settings-table,
-.volume-settings-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-bottom: 20px; /* Add some margin between tables */
-}
-
-.session-table th,
-.session-table td,
-.audio-settings-table th,
-.audio-settings-table td,
-.volume-settings-table th,
-.volume-settings-table td {
-    /* border: 1px solid #ccc; Comment out when happy */
-    padding: 10px;
-    text-align: left;
-}
-
-.session-table th,
-.audio-settings-table th,
-.volume-settings-table th {
-    background-color: #f2f2f2;
+.session-table .selected td,
+.audio-settings-table .selected td {
+    background-color: #d1d1d1; /* Highlight selected row */
 }
 
 .audio-settings-table .audio-button,
@@ -246,7 +111,8 @@
 }
 
 .audio-settings-table .audio-button.selected,
-.volume-settings-table .mute-button.selected {
+.volume-settings-table .mute-button.selected,
+.session-table .selected {
     background-color: #d1d1d1;
 }
 
@@ -306,13 +172,51 @@
     padding: 0; /* Remove padding to fit the button within the container */
 }
 
-
-.mute-button {
-    width: 100%; /* Ensure the mute button spans the full width of its container */
-    height: 100%; /* Ensure the mute button matches the height of the row */
+.dopamine-protection-container {
     display: flex;
     align-items: center;
     justify-content: center;
-    min-width: 60px; /* Set a minimum width for the mute button */
-    padding: 0; /* Remove padding to fit the button within the container */
+    border: 1px solid #ccc; /* Add border around the container */
+    padding: 10px;
+    background-color: #fff; /* Keep the background white */
+    width: 33%; /* Adjust width as needed */
+    margin: 20px auto; /* Center the container horizontally */
+}
+
+.dopamine-protection-container input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.dopamine-protection-container label {
+    white-space: nowrap; /* Prevent line breaks */
+    overflow: hidden;
+    text-overflow: ellipsis; /* Add ellipsis if text overflows */
+}
+
+.info-icon {
+    display: flex;
+    align-items: center;
+    margin-left: 10px;
+    font-size: 16px; /* Adjust font size as needed */
+    cursor: pointer;
+    position: relative; /* Needed for tooltip positioning */
+}
+
+.tooltip-text {
+    display: none;
+    position: absolute;
+    background-color: #333;
+    color: #fff;
+    padding: 5px;
+    border-radius: 5px;
+    font-size: 12px; /* Adjust font size as needed */
+    white-space: nowrap;
+    z-index: 1000;
+    top: 100%; /* Position below the icon */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Center horizontally */
+}
+
+.info-icon:hover .tooltip-text {
+    display: block;
 }

@@ -14,7 +14,7 @@ const studySessions = [
 
 const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ onClose, onApplyTimerSettings }) => {
     const [activeTab, setActiveTab] = useState<string>('timer');
-    const [selectedSession, setSelectedSession] = useState<string>(studySessions[0].label);
+    const [selectedSession, setSelectedSession] = useState<string>('');
     const [selectedMusic, setSelectedMusic] = useState<string>('None');
     const [selectedSoundscape, setSelectedSoundscape] = useState<string>('None');
     const [isMusicMuted, setIsMusicMuted] = useState(false);
@@ -68,12 +68,6 @@ const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ onClose, onApplyTimer
                     >
                         Audio Settings
                     </button>
-                    <button
-                        className={`tab-button ${activeTab === 'other' ? 'active' : ''}`}
-                        onClick={() => setActiveTab('other')}
-                    >
-                        Other Settings
-                    </button>
                     <button className="close-button" onClick={onClose}>
                         X
                     </button>
@@ -99,9 +93,14 @@ const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ onClose, onApplyTimer
                                     ))}
                                 </tbody>
                             </table>
-                            <button className="apply-button" onClick={handleApplyTimerSettings}>
-                                Apply
-                            </button>
+                            <div className='apply-button-container'>
+                                <button
+                                    className='apply-button'
+                                    onClick={handleApplyTimerSettings}
+                                >
+                                    Apply
+                                </button>
+                            </div>
                         </div>
                     )}
                     {activeTab === 'audio' && (
@@ -164,12 +163,20 @@ const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ onClose, onApplyTimer
                                     </tr>
                                 </tbody>
                             </table>
+                            <div className="dopamine-protection-container">
+                                <input type="checkbox" id="dopamine-protection" />
+                                <label htmlFor="dopamine-protection">Dopamine Protection</label>
+                                <div className="info-icon">
+                                    ℹ
+                                    <span className="tooltip-text">Gradually lowers master volume during study session to reduce reliance on music for dopamine.</span>
+                                </div>
+                            </div>
                             <div className="volume-settings-header">Volume Settings</div>
                             <table className="volume-settings-table">
                                 <tbody>
                                     <tr>
                                         <td className="volume-label">Music Volume</td>
-                                        <td id="music-volume">
+                                        <td className="volume-bar-container">
                                             <input type="range" name="music-volume" min="0" max="100" />
                                         </td>
                                         <td className="mute-button-container">
@@ -183,7 +190,7 @@ const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ onClose, onApplyTimer
                                     </tr>
                                     <tr>
                                         <td className="volume-label">Soundscape Volume</td>
-                                        <td id="soundscape-volume">
+                                        <td className="volume-bar-container">
                                             <input type="range" name="soundscape-volume" min="0" max="100" />
                                         </td>
                                         <td className="mute-button-container">
@@ -197,7 +204,7 @@ const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ onClose, onApplyTimer
                                     </tr>
                                     <tr>
                                         <td className="volume-label">Master Volume</td>
-                                        <td id="master-volume">
+                                        <td className="volume-bar-container">
                                             <input type="range" name="master-volume" min="0" max="100" />
                                         </td>
                                         <td className="mute-button-container">
@@ -211,12 +218,6 @@ const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ onClose, onApplyTimer
                                     </tr>
                                 </tbody>
                             </table>
-                        </div>
-                    )}
-                    {activeTab === 'other' && (
-                        <div className="checkbox-container">
-                            <input type="checkbox" id="dimming-volume" />
-                            <label htmlFor="dimming-volume">Dimming Volume</label>
                         </div>
                     )}
                 </div>

@@ -21,20 +21,18 @@ const DropdownMenu = () => {
             <button className="dropdown-button" onClick={toggleDropdown}>
                 ☰
             </button>
-            {isOpen && (
-                <div className="dropdown-content">
-                    <Link to="/">Landing</Link>
-                    <Link to="/dashboard">Dashboard</Link>
-                    {isLoggedIn ? (
-                        <>
-                            <Link to="/profile">Profile</Link>
-                            <Link to="/" onClick={handleLogout}>Logout</Link>
-                        </>
-                    ) : (
-                        <Link to="/login">Login</Link>
-                    )}
-                </div>
-            )}
+            <div className={`dropdown-content ${isOpen ? 'open' : ''}`}>
+                <Link to="/">Landing</Link>
+                <Link to="/dashboard">Dashboard</Link>
+                {isLoggedIn ? (
+                    <>
+                        <Link to="/profile">Profile</Link>
+                        <Link to="/" onClick={handleLogout}>Logout</Link>
+                    </>
+                ) : (
+                    <Link to="/login">Login</Link>
+                )}
+            </div>
         </div>
     );
 };
