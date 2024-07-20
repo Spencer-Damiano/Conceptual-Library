@@ -18,6 +18,8 @@ RUN apt-get update && apt-get install -y wget unzip
 RUN wget -qO- https://repo1.maven.org/maven2/org/flywaydb/flyway-commandline/8.5.4/flyway-commandline-8.5.4-linux-x64.tar.gz | tar xvz -C /usr/local
 ENV PATH="/usr/local/flyway-8.5.4:/usr/local/flyway-8.5.4/flyway:${PATH}"
 
-COPY backend/entrypoint.sh .
+# Copy entrypoint.sh to the /app directory
+COPY backend/entrypoint.sh /app/entrypoint.sh
 RUN chmod +x /app/entrypoint.sh
+
 ENTRYPOINT ["/app/entrypoint.sh"]
