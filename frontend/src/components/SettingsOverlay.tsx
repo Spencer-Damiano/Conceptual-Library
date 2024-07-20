@@ -7,105 +7,216 @@ interface SettingsOverlayProps {
 }
 
 const studySessions = [
-    { study: 5 * 1000, break: 3 * 1000, label: 'Test (5s study / 3s break)' },
-    { study: 25 * 60 * 1000, break: 5 * 60 * 1000, label: 'Pomodoro (25m study / 5m break)' },
-    { study: 45 * 60 * 1000, break: 15 * 60 * 1000, label: 'Long (45m study / 15m break)' },
+    { study: 5 * 1000, break: 3 * 1000, label: 'Test (00:00:05 / 00:00:03)' },
+    { study: 25 * 60 * 1000, break: 5 * 60 * 1000, label: 'Pomodoro (00:25:00 / 00:05:00)' },
+    { study: 45 * 60 * 1000, break: 15 * 60 * 1000, label: 'Long (00:45:00 / 00:15:00)' },
 ];
 
-const formatTime = (milliseconds: number) => {
-    const totalSeconds = Math.floor(milliseconds / 1000);
-    const hours = Math.floor(totalSeconds / 3600);
-    const minutes = Math.floor((totalSeconds % 3600) / 60);
-    const seconds = totalSeconds % 60;
-
-    if (hours > 0) {
-        return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-    }
-    return `${String(minutes).padStart(2, '0')}:${String(seconds).padStart(2, '0')}`;
-};
-
 const SettingsOverlay: React.FC<SettingsOverlayProps> = ({ onClose, onApplyTimerSettings }) => {
-    const [selectedOption, setSelectedOption] = useState(studySessions[0]);
-    const [activeTab, setActiveTab] = useState('timer');
+    const [activeTab, setActiveTab] = useState<string>('timer');
+    const [selectedSession, setSelectedSession] = useState<string>(studySessions[0].label);
+    const [selectedMusic, setSelectedMusic] = useState<string>('None');
+    const [selectedSoundscape, setSelectedSoundscape] = useState<string>('None');
+    const [isMusicMuted, setIsMusicMuted] = useState(false);
+    const [isSoundscapeMuted, setIsSoundscapeMuted] = useState(false);
+    const [isMasterMuted, setIsMasterMuted] = useState(false);
 
-    const handleOptionChange = (session: typeof studySessions[0]) => {
-        setSelectedOption(session);
+    const handleApplyTimerSettings = () => {
+        const session = studySessions.find((session) => session.label === selectedSession);
+        if (session) {
+            onApplyTimerSettings(session);
+        }
     };
 
-    const handleApply = () => {
-        onApplyTimerSettings(selectedOption);
-        onClose();
+    const handleMusicSelect = (music: string) => {
+        setSelectedMusic(music);
+    };
+
+    const handleSoundscapeSelect = (soundscape: string) => {
+        setSelectedSoundscape(soundscape);
+    };
+
+    const handleMuteToggle = (type: 'music' | 'soundscape' | 'master') => {
+        switch (type) {
+            case 'music':
+                setIsMusicMuted(!isMusicMuted);
+                break;
+            case 'soundscape':
+                setIsSoundscapeMuted(!isSoundscapeMuted);
+                break;
+            case 'master':
+                setIsMasterMuted(!isMasterMuted);
+                break;
+            default:
+                break;
+        }
     };
 
     return (
         <div className="settings-overlay">
             <div className="settings-content">
                 <div className="header-buttons">
-                    <button className={`tab-button ${activeTab === 'timer' ? 'active' : ''}`} onClick={() => setActiveTab('timer')}>Timer Settings</button>
-                    <button className={`tab-button ${activeTab === 'music' ? 'active' : ''}`} onClick={() => setActiveTab('music')}>Music Settings</button>
-                    <button className={`tab-button ${activeTab === 'soundscape' ? 'active' : ''}`} onClick={() => setActiveTab('soundscape')}>Soundscape Settings</button>
-                    <button className={`tab-button ${activeTab === 'other' ? 'active' : ''}`} onClick={() => setActiveTab('other')}>Other</button>
-                    <button className="close-button" onClick={onClose}>X</button>
+                    <button
+                        className={`tab-button ${activeTab === 'timer' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('timer')}
+                    >
+                        Timer Settings
+                    </button>
+                    <button
+                        className={`tab-button ${activeTab === 'audio' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('audio')}
+                    >
+                        Audio Settings
+                    </button>
+                    <button
+                        className={`tab-button ${activeTab === 'other' ? 'active' : ''}`}
+                        onClick={() => setActiveTab('other')}
+                    >
+                        Other Settings
+                    </button>
+                    <button className="close-button" onClick={onClose}>
+                        X
+                    </button>
                 </div>
                 <div className="settings-panel">
                     {activeTab === 'timer' && (
                         <div>
-                            <h2>Select Study Session</h2>
                             <table className="session-table">
                                 <thead>
                                     <tr>
-                                        <th>Label</th>
-                                        <th>Study Time</th>
-                                        <th>Break Time</th>
+                                        <th>Session</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    {studySessions.map(session => (
+                                    {studySessions.map((session) => (
                                         <tr
                                             key={session.label}
-                                            className={selectedOption.label === session.label ? 'selected' : ''}
-                                            onClick={() => handleOptionChange(session)}
+                                            className={selectedSession === session.label ? 'selected' : ''}
+                                            onClick={() => setSelectedSession(session.label)}
                                         >
                                             <td>{session.label}</td>
-                                            <td>{formatTime(session.study)}</td>
-                                            <td>{formatTime(session.break)}</td>
                                         </tr>
                                     ))}
                                 </tbody>
                             </table>
-                            <button className="apply-button" onClick={handleApply}>Apply</button>
+                            <button className="apply-button" onClick={handleApplyTimerSettings}>
+                                Apply
+                            </button>
                         </div>
                     )}
-                    {activeTab === 'music' && (
+                    {activeTab === 'audio' && (
                         <div>
-                            <h2>Music Settings</h2>
-                            <button className="music-button">Lofi</button>
-                            <button className="music-button">Classical</button>
-                            <div className="volume-control">
-                                <label htmlFor="music-volume">Volume</label>
-                                <input type="range" id="music-volume" name="music-volume" min="0" max="100" />
-                            </div>
-                        </div>
-                    )}
-                    {activeTab === 'soundscape' && (
-                        <div>
-                            <h2>Soundscape Settings</h2>
-                            <button className="soundscape-button">Thunderstorm</button>
-                            <button className="soundscape-button">White Noise</button>
-                            <button className="soundscape-button">Creek</button>
-                            <div className="volume-control">
-                                <label htmlFor="soundscape-volume">Volume</label>
-                                <input type="range" id="soundscape-volume" name="soundscape-volume" min="0" max="100" />
-                            </div>
+                            <table className="audio-settings-table">
+                                <thead>
+                                    <tr>
+                                        <th>Music Settings</th>
+                                        <th>Soundscape Settings</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <button
+                                                className={`audio-button ${selectedMusic === 'None' ? 'selected' : ''}`}
+                                                onClick={() => handleMusicSelect('None')}
+                                            >
+                                                None
+                                            </button>
+                                            <button
+                                                className={`audio-button ${selectedMusic === 'Lofi' ? 'selected' : ''}`}
+                                                onClick={() => handleMusicSelect('Lofi')}
+                                            >
+                                                Lofi
+                                            </button>
+                                            <button
+                                                className={`audio-button ${selectedMusic === 'Classical' ? 'selected' : ''}`}
+                                                onClick={() => handleMusicSelect('Classical')}
+                                            >
+                                                Classical
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button
+                                                className={`audio-button ${selectedSoundscape === 'None' ? 'selected' : ''}`}
+                                                onClick={() => handleSoundscapeSelect('None')}
+                                            >
+                                                None
+                                            </button>
+                                            <button
+                                                className={`audio-button ${selectedSoundscape === 'Thunderstorm' ? 'selected' : ''}`}
+                                                onClick={() => handleSoundscapeSelect('Thunderstorm')}
+                                            >
+                                                Thunderstorm
+                                            </button>
+                                            <button
+                                                className={`audio-button ${selectedSoundscape === 'White Noise' ? 'selected' : ''}`}
+                                                onClick={() => handleSoundscapeSelect('White Noise')}
+                                            >
+                                                White Noise
+                                            </button>
+                                            <button
+                                                className={`audio-button ${selectedSoundscape === 'Creek' ? 'selected' : ''}`}
+                                                onClick={() => handleSoundscapeSelect('Creek')}
+                                            >
+                                                Creek
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div className="volume-settings-header">Volume Settings</div>
+                            <table className="volume-settings-table">
+                                <tbody>
+                                    <tr>
+                                        <td className="volume-label">Music Volume</td>
+                                        <td id="music-volume">
+                                            <input type="range" name="music-volume" min="0" max="100" />
+                                        </td>
+                                        <td className="mute-button-container">
+                                            <button
+                                                className={`mute-button ${isMusicMuted ? 'selected' : ''}`}
+                                                onClick={() => handleMuteToggle('music')}
+                                            >
+                                                <span className={isMusicMuted ? 'strikethrough' : ''}>Mute</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="volume-label">Soundscape Volume</td>
+                                        <td id="soundscape-volume">
+                                            <input type="range" name="soundscape-volume" min="0" max="100" />
+                                        </td>
+                                        <td className="mute-button-container">
+                                            <button
+                                                className={`mute-button ${isSoundscapeMuted ? 'selected' : ''}`}
+                                                onClick={() => handleMuteToggle('soundscape')}
+                                            >
+                                                <span className={isSoundscapeMuted ? 'strikethrough' : ''}>Mute</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className="volume-label">Master Volume</td>
+                                        <td id="master-volume">
+                                            <input type="range" name="master-volume" min="0" max="100" />
+                                        </td>
+                                        <td className="mute-button-container">
+                                            <button
+                                                className={`mute-button ${isMasterMuted ? 'selected' : ''}`}
+                                                onClick={() => handleMuteToggle('master')}
+                                            >
+                                                <span className={isMasterMuted ? 'strikethrough' : ''}>Mute</span>
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
                     )}
                     {activeTab === 'other' && (
-                        <div>
-                            <h2>Other Settings</h2>
-                            <div className="checkbox-container">
-                                <input type="checkbox" id="dimming-volume" name="dimming-volume" />
-                                <label htmlFor="dimming-volume">Dimming Volume</label>
-                            </div>
+                        <div className="checkbox-container">
+                            <input type="checkbox" id="dimming-volume" />
+                            <label htmlFor="dimming-volume">Dimming Volume</label>
                         </div>
                     )}
                 </div>
